@@ -1,0 +1,11 @@
+# MCP Server Configuration
+server:
+  name: "Home Assistant MCP"
+  version: "0.1.0"
+  transport:
+    type: "stdio"
+
+# Home Assistant Configuration
+home_assistant:
+  url: "${HA_URL}"      # e.g., http://homeassistant.local:8123
+  token: "${HA_TOKEN}"  # Long-lived access token

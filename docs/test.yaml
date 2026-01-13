@@ -1,0 +1,36 @@
+# MCP Server Configuration
+server:
+  name: "Home Assistant MCP"
+  version: "0.1.0"
+  transport:
+    type: "http"
+    http:
+      host: ":8080"
+
+# Home Assistant Configuration
+home_assistant:
+  url: "https://home-assistant.tools.internal.place"
+  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI1OWJjZGFkNjA3OTM0YjNjODA3OTJmNWRmMjVhYjBiYyIsImlhdCI6MTc2ODI2NDg4MCwiZXhwIjoyMDgzNjI0ODgwfQ.0Ccf0gOenLKvcp7btNzqZlsEXrZtpdFQM76AOdx3LN0"
+
+# Middleware Configuration
+middleware:
+  access_logs:
+    excluded_headers:
+      - X-Excluded
+    redacted_headers:
+      - Authorization
+      - X-Validated-Jwt
+
+  jwt:
+    enabled: false
+
+# Oauth Authorization Server Configuration
+# Endpoint: /.well-known/oauth-authorization-server
+oauth_authorization_server:
+  enabled: false
+
+# Oauth Protected Resource Configuration
+# Endpoint: /.well-known/oauth-protected-resource
+oauth_protected_resource:
+  enabled: false
+
