@@ -3,11 +3,7 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/achetronic/hass-mcp)
 ![GitHub](https://img.shields.io/github/license/achetronic/hass-mcp)
 
-An MCP server that exposes Home Assistant functionality to AI assistants. Built in Go, it enables AI clients like Claude, Cursor, or OpenAI to interact with your smart home.
-
-## Overview
-
-This server implements the Model Context Protocol to bridge AI assistants with Home Assistant. It provides tools for querying entity states, controlling devices, viewing automations, and troubleshooting your Home Assistant installation.
+An MCP server that exposes Home Assistant functionality to AI assistants. Built in Go, it enables AI clients like Claude, Cursor, or OpenAI to interact with your smart home through the [Model Context Protocol](https://modelcontextprotocol.io/).
 
 ## Features
 
@@ -20,50 +16,28 @@ This server implements the Model Context Protocol to bridge AI assistants with H
 
 ## Available Tools
 
-| Tool               | Description                                       |
-|--------------------|---------------------------------------------------|
-| `get_version`      | Get the Home Assistant version                    |
-| `get_entity`       | Get state of a specific entity                    |
-| `entity_action`    | Turn entities on, off, or toggle them             |
-| `list_entities`    | List entities with optional domain/search filters |
-| `search_entities`  | Search entities by name, ID, or attributes        |
-| `domain_summary`   | Get statistics for a specific domain              |
-| `system_overview`  | Get a complete overview of the HA system          |
-| `list_automations` | List all automations with their states            |
-| `call_service`     | Call any Home Assistant service                   |
-| `get_history`      | Get state change history for an entity            |
-| `get_error_log`    | Retrieve the Home Assistant error log             |
-| `restart_ha`       | Restart Home Assistant                            |
+| Tool               | Description                                                |
+|--------------------|------------------------------------------------------------|
+| `get_version`      | Get the Home Assistant version                             |
+| `get_entity`       | Get state of a specific entity (with optional filtering)   |
+| `entity_action`    | Turn entities on, off, or toggle them (with params)        |
+| `list_entities`    | List entities with optional domain/search filters          |
+| `search_entities`  | Search entities by name, ID, or attributes                 |
+| `domain_summary`   | Get statistics and state distribution for a domain         |
+| `system_overview`  | Get a complete overview of the HA system                   |
+| `list_automations` | List all automations with their states                     |
+| `call_service`     | Call any Home Assistant service (low-level API)            |
+| `get_history`      | Get state change history for an entity                     |
+| `get_error_log`    | Retrieve the Home Assistant error log                      |
+| `restart_ha`       | Restart Home Assistant                                     |
 
-## Requirements
+## Quick Start
 
-- Go 1.24 or later
+### Requirements
+
+- Go 1.24 or later (only for building from source)
 - Home Assistant instance with API access
 - Long-lived access token from Home Assistant
-
-## Configuration
-
-Create a configuration file based on the examples in `docs/`:
-
-```yaml
-server:
-  name: "Home Assistant MCP"
-  version: "0.1.0"
-  transport:
-    type: "stdio"  # or "http"
-
-home_assistant:
-  url: "http://homeassistant.local:8123"
-  token: "your-long-lived-access-token"
-```
-
-Environment variables are supported using `${VAR}` syntax:
-
-```yaml
-home_assistant:
-  url: "${HA_URL}"
-  token: "${HA_TOKEN}"
-```
 
 ### Obtaining a Home Assistant Token
 
@@ -72,27 +46,145 @@ home_assistant:
 3. Scroll to "Long-Lived Access Tokens"
 4. Create a new token and copy it
 
-## Installation
+### Installation
 
-### Build from Source
+#### Build from Source
 
 ```bash
+git clone https://github.com/achetronic/hass-mcp.git
+cd hass-mcp
 make build
 ```
 
 The binary will be created at `bin/hass-mcp-{os}-{arch}`.
 
-### Docker
+#### Docker
+
+```bash
+docker pull ghcr.io/achetronic/hass-mcp:latest
+```
+
+Or build locally:
 
 ```bash
 make docker-build IMG=your-registry/hass-mcp:latest
 ```
 
+## Configuration
+
+Create a configuration file based on the examples in [`docs/`](./docs/):
+
+### Stdio Mode (Local Clients)
+
+```yaml
+server:
+  name: "Home Assistant MCP"
+  version: "0.1.0"
+  transport:
+    type: "stdio"
+
+home_assistant:
+  url: "${HA_URL}"      # e.g., http://homeassistant.local:8123
+  token: "${HA_TOKEN}"  # Long-lived access token
+```
+
+### HTTP Mode (Remote Clients)
+
+#### Basic HTTP Server (Private Network)
+
+For internal use or development, you can run a simple HTTP server without authentication:
+
+```yaml
+server:
+  name: "Home Assistant MCP"
+  version: "0.1.0"
+  transport:
+    type: "http"
+    http:
+      host: ":8080"
+
+home_assistant:
+  url: "${HA_URL}"
+  token: "${HA_TOKEN}"
+```
+
+#### HTTP Server with OAuth 2.1 (Public Exposure)
+
+For public-facing deployments, the server supports [OAuth 2.1](https://oauth.net/2.1/) with JWT validation. This enables secure access from remote AI clients like Claude Web or ChatGPT by delegating authentication to an identity provider (Keycloak, Auth0, Okta, etc.).
+
+The server implements:
+- **RFC 8414**: OAuth Authorization Server Metadata (`/.well-known/oauth-authorization-server`)
+- **RFC 9728**: OAuth Protected Resource Metadata (`/.well-known/oauth-protected-resource`)
+
+```yaml
+server:
+  name: "Home Assistant MCP"
+  version: "0.1.0"
+  transport:
+    type: "http"
+    http:
+      host: ":8080"
+
+home_assistant:
+  url: "${HA_URL}"
+  token: "${HA_TOKEN}"
+
+middleware:
+  jwt:
+    enabled: true
+    validation:
+      strategy: "local"  # Validate JWTs internally using JWKS
+      local:
+        jwks_uri: "https://keycloak.example.com/realms/mcp-servers/protocol/openid-connect/certs"
+        cache_interval: "10s"
+        # Optional: CEL expressions to validate JWT claims
+        allow_conditions:
+          - expression: 'payload.groups.exists(g, g == "home-assistant-users")'
+
+oauth_authorization_server:
+  enabled: true
+  issuer_uri: "https://keycloak.example.com/realms/mcp-servers"
+
+oauth_protected_resource:
+  enabled: true
+  resource: "https://hass-mcp.example.com/mcp"
+  auth_servers:
+    - "https://keycloak.example.com/realms/mcp-servers"
+  scopes_supported:
+    - openid
+    - profile
+```
+
+> **Tip**: If you have an upstream proxy (e.g., Istio) that validates JWTs, you can use `strategy: "external"` and configure `forwarded_header` to receive the validated JWT from the proxy.
+
+> **Note**: Environment variables are supported using `${VAR}` syntax.
+
+See [`docs/config-http.yaml`](./docs/config-http.yaml) for a complete configuration example.
+
 ## Usage
 
-### Local Clients (Claude Desktop, Cursor)
+### Local Clients (Claude Desktop, Cursor, VS Code)
 
 For local AI clients, use stdio transport. Add to your client configuration:
+
+**Claude Desktop** (`claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "home-assistant": {
+      "command": "/path/to/hass-mcp",
+      "args": ["--config", "/path/to/config-stdio.yaml"],
+      "env": {
+        "HA_URL": "http://homeassistant.local:8123",
+        "HA_TOKEN": "your-token-here"
+      }
+    }
+  }
+}
+```
+
+**Cursor** (`.cursor/mcp.json`):
 
 ```json
 {
@@ -114,13 +206,18 @@ For local AI clients, use stdio transport. Add to your client configuration:
 For remote clients, use HTTP transport:
 
 ```bash
-make run
+export HA_URL="http://homeassistant.local:8123"
+export HA_TOKEN="your-token-here"
+./hass-mcp --config config-http.yaml
 ```
 
-This starts the server on port 8080 by default. The server exposes:
-- `/mcp` - MCP protocol endpoint
-- `/.well-known/oauth-authorization-server` - OAuth metadata (if enabled)
-- `/.well-known/oauth-protected-resource` - Protected resource metadata (if enabled)
+The server starts on port 8080 by default. Available endpoints depend on your configuration:
+
+| Endpoint                                    | Description                            | When Enabled                |
+|---------------------------------------------|----------------------------------------|-----------------------------|
+| `/mcp`                                      | MCP protocol endpoint                  | Always                      |
+| `/.well-known/oauth-authorization-server`  | OAuth metadata (RFC 8414)              | `oauth_authorization_server.enabled: true` |
+| `/.well-known/oauth-protected-resource`    | Protected resource metadata (RFC 9728) | `oauth_protected_resource.enabled: true`   |
 
 ## Development
 
@@ -134,27 +231,40 @@ make fmt
 # Run linter
 make lint
 
+# Run linter with auto-fix
+make lint-fix
+
 # Build binary
 make build
+
+# Show all available targets
+make help
 ```
 
 ## Deployment
 
 ### Kubernetes
 
-A Helm chart is provided in the `chart/` directory:
+A Helm chart is provided in the [`chart/`](./chart/) directory:
 
 ```bash
-helm install hass-mcp ./chart
+# Update dependencies
+helm dependency update ./chart
+
+# Install
+helm install hass-mcp ./chart \
+  --set config.home_assistant.url="http://homeassistant.local:8123" \
+  --set config.home_assistant.token="your-token-here"
 ```
 
 Configure values in `chart/values.yaml` to match your environment.
 
 ### Production Recommendations
 
-- Use a reverse proxy (e.g., Istio) for JWT validation
-- Enable OAuth endpoints for remote client authentication
-- Use a consistent hash router for session affinity if running multiple replicas
+- **Authentication**: Use a reverse proxy (e.g., Istio, Traefik) for JWT validation in production
+- **OAuth**: Enable OAuth endpoints for remote client authentication
+- **Session Affinity**: Use a consistent hash router for session affinity when running multiple replicas
+- **Secrets**: Store tokens in Kubernetes secrets or external secret managers
 
 ## Project Structure
 
@@ -164,15 +274,29 @@ Configure values in `chart/values.yaml` to match your environment.
 ├── internal/
 │   ├── hass/                # Home Assistant API client
 │   ├── tools/               # MCP tool implementations
-│   ├── handlers/            # HTTP handlers
-│   ├── middlewares/         # HTTP middlewares
+│   ├── handlers/            # HTTP endpoint handlers
+│   ├── middlewares/         # HTTP/JWT middlewares
 │   ├── config/              # Configuration loading
 │   └── globals/             # Application context
 ├── docs/                    # Example configurations
-└── chart/                   # Helm chart
+└── chart/                   # Helm chart for Kubernetes
 ```
 
-## Documentation
+## How It Works
+
+```
+┌─────────────────┐     MCP Protocol      ┌─────────────────┐     REST API      ┌─────────────────┐
+│   AI Assistant  │ ──────────────────────▶│   hass-mcp     │ ─────────────────▶│ Home Assistant  │
+│ (Claude, etc.)  │ ◀────────────────────  │    Server      │ ◀─────────────────│    Instance     │
+└─────────────────┘   stdio or HTTP/SSE   └─────────────────┘                   └─────────────────┘
+```
+
+1. The AI assistant connects to hass-mcp via MCP (stdio for local clients, HTTP/SSE for remote)
+2. The assistant can discover available tools and call them
+3. hass-mcp translates tool calls into Home Assistant REST API requests
+4. Results are returned to the assistant in a structured format
+
+## Related Links
 
 - [Model Context Protocol Specification](https://modelcontextprotocol.io/)
 - [Home Assistant REST API](https://developers.home-assistant.io/docs/api/rest/)
