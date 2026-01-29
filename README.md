@@ -284,11 +284,10 @@ Configure values in `chart/values.yaml` to match your environment.
 
 ## How It Works
 
-```
-┌─────────────────┐     MCP Protocol      ┌─────────────────┐     REST API      ┌─────────────────┐
-│   AI Assistant  │ ──────────────────────▶│   hass-mcp     │ ─────────────────▶│ Home Assistant  │
-│ (Claude, etc.)  │ ◀────────────────────  │    Server      │ ◀─────────────────│    Instance     │
-└─────────────────┘   stdio or HTTP/SSE   └─────────────────┘                   └─────────────────┘
+```mermaid
+flowchart LR
+    A[AI Assistant<br/>Claude, Cursor, etc.] <-->|MCP Protocol<br/>stdio or HTTP/SSE| B[hass-mcp<br/>Server]
+    B <-->|REST API| C[Home Assistant<br/>Instance]
 ```
 
 1. The AI assistant connects to hass-mcp via MCP (stdio for local clients, HTTP/SSE for remote)
