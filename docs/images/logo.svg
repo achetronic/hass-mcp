@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bgTeal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#26c6da"/>
+      <stop offset="100%" style="stop-color:#00838f"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Circular background -->
+  <circle cx="100" cy="100" r="100" fill="url(#bgTeal)"/>
+  
+  <!-- Home Assistant house - smaller -->
+  <g transform="translate(56, 32) scale(0.37)">
+    <path fill="#ffffff" d="M240 224.813C240 233.063 233.25 239.813 225 239.813H15C6.75 239.813 0 233.063 0 224.813V134.813C0 126.563 4.77 115.043 10.61 109.203L109.39 10.423C115.22 4.593 124.77 4.593 130.6 10.423L229.39 109.213C235.22 115.043 240 126.573 240 134.823V224.823V224.813Z"/>
+  </g>
+  
+  <!-- MCP nodes -->
+  <g>
+    <circle cx="100" cy="65" r="8" fill="#ff7043"/>
+    <circle cx="80" cy="92" r="6" fill="#ff8a65"/>
+    <circle cx="120" cy="92" r="6" fill="#ff8a65"/>
+    <line x1="95" y1="71" x2="84" y2="87" stroke="#ff7043" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="105" y1="71" x2="116" y2="87" stroke="#ff7043" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  
+  <!-- MCP text with letter spacing -->
+  <text x="100" y="155" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="500" fill="#ffffff" text-anchor="middle" letter-spacing="0.15em">MCP</text>
+</svg>

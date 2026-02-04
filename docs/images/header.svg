@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320">
+  <defs>
+    <linearGradient id="bgTC6" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00838f"/>
+      <stop offset="50%" style="stop-color:#26c6da"/>
+      <stop offset="100%" style="stop-color:#00838f"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="1280" height="320" fill="url(#bgTC6)"/>
+  
+  <!-- Centered layout -->
+  <!-- Logo -->
+  <g transform="translate(320, 40) scale(0.83)">
+    <path fill="#ffffff" d="M240 224.813C240 233.063 233.25 239.813 225 239.813H15C6.75 239.813 0 233.063 0 224.813V134.813C0 126.563 4.77 115.043 10.61 109.203L109.39 10.423C115.22 4.593 124.77 4.593 130.6 10.423L229.39 109.213C235.22 115.043 240 126.573 240 134.823V224.823V224.813Z"/>
+  </g>
+  
+  <!-- MCP nodes on logo -->
+  <g>
+    <circle cx="420" cy="125" r="16" fill="#ff7043"/>
+    <circle cx="380" cy="185" r="12" fill="#ff8a65"/>
+    <circle cx="460" cy="185" r="12" fill="#ff8a65"/>
+    <line x1="410" y1="136" x2="389" y2="176" stroke="#ff7043" stroke-width="5" stroke-linecap="round"/>
+    <line x1="430" y1="136" x2="451" y2="176" stroke="#ff7043" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Title to the right of logo -->
+  <g transform="translate(580, 145)">
+    <text x="0" y="0" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="68" font-weight="200" fill="#ffffff" letter-spacing="0.08em" transform="scale(0.85, 1)">HASS-MCP</text>
+  </g>
+  <text x="580" y="195" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="400" fill="rgba(255,255,255,0.85)">Home Assistant MCP Server</text>
+  
+  <!-- Feature badges - white, no border -->
+  <g transform="translate(580, 220)">
+    <!-- OAuth 2.1 -->
+    <rect x="0" y="0" width="90" height="28" rx="14" fill="#ffffff"/>
+    <text x="45" y="19" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600" fill="#00838f" text-anchor="middle">OAuth 2.1</text>
+    
+    <!-- Stdio -->
+    <rect x="100" y="0" width="60" height="28" rx="14" fill="#ffffff"/>
+    <text x="130" y="19" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600" fill="#00838f" text-anchor="middle">Stdio</text>
+    
+    <!-- Streamable HTTP -->
+    <rect x="170" y="0" width="130" height="28" rx="14" fill="#ffffff"/>
+    <text x="235" y="19" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600" fill="#00838f" text-anchor="middle">Streamable HTTP</text>
+    
+    <!-- CEL Claims Validation -->
+    <rect x="310" y="0" width="160" height="28" rx="14" fill="#ffffff"/>
+    <text x="390" y="19" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600" fill="#00838f" text-anchor="middle">CEL Claims Validation</text>
+  </g>
+</svg>

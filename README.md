@@ -1,7 +1,11 @@
-# Home Assistant MCP Server
+<p align="center">
+  <img src="docs/images/header.png" alt="HASS-MCP" width="800">
+</p>
 
-![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/achetronic/hass-mcp)
-![GitHub](https://img.shields.io/github/license/achetronic/hass-mcp)
+<p align="center">
+  <img src="https://img.shields.io/github/go-mod/go-version/achetronic/hass-mcp" alt="Go version">
+  <img src="https://img.shields.io/github/license/achetronic/hass-mcp" alt="License">
+</p>
 
 An MCP server that exposes Home Assistant functionality to AI assistants. Built in Go, it enables AI clients like Claude, Cursor, or OpenAI to interact with your smart home through the [Model Context Protocol](https://modelcontextprotocol.io/).
 
@@ -16,20 +20,20 @@ An MCP server that exposes Home Assistant functionality to AI assistants. Built 
 
 ## Available Tools
 
-| Tool               | Description                                                |
-|--------------------|------------------------------------------------------------|
-| `get_version`      | Get the Home Assistant version                             |
-| `get_entity`       | Get state of a specific entity (with optional filtering)   |
-| `entity_action`    | Turn entities on, off, or toggle them (with params)        |
-| `list_entities`    | List entities with optional domain/search filters          |
-| `search_entities`  | Search entities by name, ID, or attributes                 |
-| `domain_summary`   | Get statistics and state distribution for a domain         |
-| `system_overview`  | Get a complete overview of the HA system                   |
-| `list_automations` | List all automations with their states                     |
-| `call_service`     | Call any Home Assistant service (low-level API)            |
-| `get_history`      | Get state change history for an entity                     |
-| `get_error_log`    | Retrieve the Home Assistant error log                      |
-| `restart_ha`       | Restart Home Assistant                                     |
+| Tool               | Description                                              |
+| ------------------ | -------------------------------------------------------- |
+| `get_version`      | Get the Home Assistant version                           |
+| `get_entity`       | Get state of a specific entity (with optional filtering) |
+| `entity_action`    | Turn entities on, off, or toggle them (with params)      |
+| `list_entities`    | List entities with optional domain/search filters        |
+| `search_entities`  | Search entities by name, ID, or attributes               |
+| `domain_summary`   | Get statistics and state distribution for a domain       |
+| `system_overview`  | Get a complete overview of the HA system                 |
+| `list_automations` | List all automations with their states                   |
+| `call_service`     | Call any Home Assistant service (low-level API)          |
+| `get_history`      | Get state change history for an entity                   |
+| `get_error_log`    | Retrieve the Home Assistant error log                    |
+| `restart_ha`       | Restart Home Assistant                                   |
 
 ## Quick Start
 
@@ -84,8 +88,8 @@ server:
     type: "stdio"
 
 home_assistant:
-  url: "${HA_URL}"      # e.g., http://homeassistant.local:8123
-  token: "${HA_TOKEN}"  # Long-lived access token
+  url: "${HA_URL}" # e.g., http://homeassistant.local:8123
+  token: "${HA_TOKEN}" # Long-lived access token
 ```
 
 ### HTTP Mode (Remote Clients)
@@ -113,6 +117,7 @@ home_assistant:
 For public-facing deployments, the server supports [OAuth 2.1](https://oauth.net/2.1/) with JWT validation. This enables secure access from remote AI clients like Claude Web or ChatGPT by delegating authentication to an identity provider (Keycloak, Auth0, Okta, etc.).
 
 The server implements:
+
 - **RFC 8414**: OAuth Authorization Server Metadata (`/.well-known/oauth-authorization-server`)
 - **RFC 9728**: OAuth Protected Resource Metadata (`/.well-known/oauth-protected-resource`)
 
@@ -133,7 +138,7 @@ middleware:
   jwt:
     enabled: true
     validation:
-      strategy: "local"  # Validate JWTs internally using JWKS
+      strategy: "local" # Validate JWTs internally using JWKS
       local:
         jwks_uri: "https://keycloak.example.com/realms/mcp-servers/protocol/openid-connect/certs"
         cache_interval: "10s"
@@ -213,11 +218,11 @@ export HA_TOKEN="your-token-here"
 
 The server starts on port 8080 by default. Available endpoints depend on your configuration:
 
-| Endpoint                                    | Description                            | When Enabled                |
-|---------------------------------------------|----------------------------------------|-----------------------------|
-| `/mcp`                                      | MCP protocol endpoint                  | Always                      |
-| `/.well-known/oauth-authorization-server`  | OAuth metadata (RFC 8414)              | `oauth_authorization_server.enabled: true` |
-| `/.well-known/oauth-protected-resource`    | Protected resource metadata (RFC 9728) | `oauth_protected_resource.enabled: true`   |
+| Endpoint                                  | Description                            | When Enabled                               |
+| ----------------------------------------- | -------------------------------------- | ------------------------------------------ |
+| `/mcp`                                    | MCP protocol endpoint                  | Always                                     |
+| `/.well-known/oauth-authorization-server` | OAuth metadata (RFC 8414)              | `oauth_authorization_server.enabled: true` |
+| `/.well-known/oauth-protected-resource`   | Protected resource metadata (RFC 9728) | `oauth_protected_resource.enabled: true`   |
 
 ## Development
 
