@@ -47,13 +47,8 @@
 
   <!-- Subtitle -->
   <text x="312" y="278" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="26" font-weight="400" fill="#607d8b">Connect AI assistants to your smart home</text>
-  <text x="312" y="316" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="400" fill="#78909c">Claude · Cursor · OpenAI · any MCP client</text>
-
   <!-- Divider -->
-  <rect x="312" y="342" width="700" height="2" fill="#00838f" opacity="0.3" rx="1"/>
-
-  <!-- Repo URL -->
-  <text x="314" y="378" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="21" fill="#90a4ae">github.com/achetronic/hass-mcp</text>
+  <rect x="312" y="300" width="700" height="2" fill="#00838f" opacity="0.3" rx="1"/>
 
   <!-- Row 1 pills -->
   <rect x="312" y="420" width="210" height="36" rx="18" fill="#00838f"/>
