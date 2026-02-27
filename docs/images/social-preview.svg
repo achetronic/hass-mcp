@@ -1,21 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#0d1117"/>
-      <stop offset="100%" style="stop-color:#161b22"/>
+      <stop offset="0%" style="stop-color:#e0f7fa"/>
+      <stop offset="100%" style="stop-color:#b2ebf2"/>
     </linearGradient>
     <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" style="stop-color:#26c6da"/>
       <stop offset="100%" style="stop-color:#00838f"/>
     </linearGradient>
   </defs>
+
+  <!-- Background -->
   <rect width="1280" height="640" fill="url(#bg)"/>
+
+  <!-- Subtle grid -->
   <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-width="0.15" stroke-opacity="0.05"/>
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#00838f" stroke-width="0.2" stroke-opacity="0.08"/>
   </pattern>
   <rect width="1280" height="640" fill="url(#grid)"/>
+
+  <!-- Top accent bar -->
   <rect x="0" y="0" width="1280" height="4" fill="url(#accent)"/>
-  <ellipse cx="210" cy="320" rx="260" ry="220" fill="#26c6da" opacity="0.05"/>
+
+  <!-- Glow blob -->
+  <ellipse cx="210" cy="320" rx="260" ry="220" fill="#26c6da" opacity="0.08"/>
   <g transform="translate(50, 230) scale(0.8)">
     <defs>
       <linearGradient id="bgTeal" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -35,43 +43,47 @@
     <text x="100" y="155" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="500" fill="#ffffff" text-anchor="middle" letter-spacing="0.15em">MCP</text>
   </g>
   <!-- Title -->
-  <text x="310" y="220" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="96" font-weight="700" fill="#f0f6fc" letter-spacing="-2">HASS-MCP</text>
+  <text x="310" y="225" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="96" font-weight="700" fill="#00838f" letter-spacing="0.04em">Hass MCP</text>
 
   <!-- Subtitle -->
-  <text x="312" y="275" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="26" font-weight="400" fill="#8b949e">Home Assistant MCP server · Built in Go</text>
-  <text x="312" y="313" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="22" font-weight="400" fill="#6e7681">Claude · Cursor · OpenAI · any MCP client</text>
+  <text x="312" y="278" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="26" font-weight="400" fill="#607d8b">Connect AI assistants to your smart home</text>
+  <text x="312" y="316" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="400" fill="#78909c">Claude · Cursor · OpenAI · any MCP client</text>
 
   <!-- Divider -->
-  <rect x="312" y="340" width="700" height="2" fill="#26c6da" opacity="0.4" rx="1"/>
+  <rect x="312" y="342" width="700" height="2" fill="#00838f" opacity="0.3" rx="1"/>
 
   <!-- Repo URL -->
-  <text x="314" y="377" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="21" fill="#6e7681">github.com/achetronic/hass-mcp</text>
+  <text x="314" y="378" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="21" fill="#90a4ae">github.com/achetronic/hass-mcp</text>
 
   <!-- Row 1 pills -->
-  <rect x="312" y="420" width="210" height="40" rx="20" fill="#26c6da" opacity="0.12" stroke="#26c6da" stroke-width="1"/>
-  <text x="417" y="446" font-family="'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="600" fill="#26c6da" text-anchor="middle">Entity Management</text>
+  <rect x="312" y="420" width="210" height="36" rx="18" fill="#00838f"/>
+  <text x="417" y="444" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" fill="#ffffff" text-anchor="middle">Entity Management</text>
 
-  <rect x="536" y="420" width="180" height="40" rx="20" fill="#26c6da" opacity="0.12" stroke="#26c6da" stroke-width="1"/>
-  <text x="626" y="446" font-family="'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="600" fill="#26c6da" text-anchor="middle">Service Calls</text>
+  <rect x="534" y="420" width="170" height="36" rx="18" fill="#00838f"/>
+  <text x="619" y="444" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" fill="#ffffff" text-anchor="middle">Service Calls</text>
 
-  <rect x="730" y="420" width="180" height="40" rx="20" fill="#26c6da" opacity="0.12" stroke="#26c6da" stroke-width="1"/>
-  <text x="820" y="446" font-family="'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="600" fill="#26c6da" text-anchor="middle">Automations</text>
+  <rect x="716" y="420" width="170" height="36" rx="18" fill="#00838f"/>
+  <text x="801" y="444" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" fill="#ffffff" text-anchor="middle">Automations</text>
 
-  <rect x="924" y="420" width="160" height="40" rx="20" fill="#26c6da" opacity="0.12" stroke="#26c6da" stroke-width="1"/>
-  <text x="1004" y="446" font-family="'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="600" fill="#26c6da" text-anchor="middle">Error Logs</text>
+  <rect x="898" y="420" width="150" height="36" rx="18" fill="#00838f"/>
+  <text x="973" y="444" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" fill="#ffffff" text-anchor="middle">Error Logs</text>
 
   <!-- Row 2 pills -->
-  <rect x="312" y="476" width="190" height="40" rx="20" fill="#1f6feb" opacity="0.15" stroke="#1f6feb" stroke-width="1"/>
-  <text x="407" y="502" font-family="'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="600" fill="#58a6ff" text-anchor="middle">stdio · HTTP</text>
+  <rect x="312" y="472" width="120" height="36" rx="18" fill="#26c6da"/>
+  <text x="372" y="496" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" fill="#ffffff" text-anchor="middle">OAuth 2.1</text>
 
-  <rect x="516" y="476" width="160" height="40" rx="20" fill="#1f6feb" opacity="0.15" stroke="#1f6feb" stroke-width="1"/>
-  <text x="596" y="502" font-family="'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="600" fill="#58a6ff" text-anchor="middle">OAuth · JWT</text>
+  <rect x="444" y="472" width="160" height="36" rx="18" fill="#26c6da"/>
+  <text x="524" y="496" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" fill="#ffffff" text-anchor="middle">Streamable HTTP</text>
 
-  <rect x="690" y="476" width="160" height="40" rx="20" fill="#238636" opacity="0.18" stroke="#238636" stroke-width="1"/>
-  <text x="770" y="502" font-family="'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="600" fill="#2ea043" text-anchor="middle">Helm chart</text>
+  <rect x="616" y="472" width="90" height="36" rx="18" fill="#26c6da"/>
+  <text x="661" y="496" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" fill="#ffffff" text-anchor="middle">Stdio</text>
 
-  <rect x="864" y="476" width="160" height="40" rx="20" fill="#238636" opacity="0.18" stroke="#238636" stroke-width="1"/>
-  <text x="944" y="502" font-family="'Segoe UI', system-ui, sans-serif" font-size="15" font-weight="600" fill="#2ea043" text-anchor="middle">Docker ready</text>
+  <rect x="718" y="472" width="130" height="36" rx="18" fill="#26c6da"/>
+  <text x="783" y="496" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" fill="#ffffff" text-anchor="middle">Helm chart</text>
 
-  <rect x="0" y="636" width="1280" height="4" fill="#21262d"/>
+  <rect x="860" y="472" width="130" height="36" rx="18" fill="#26c6da"/>
+  <text x="925" y="496" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" fill="#ffffff" text-anchor="middle">Docker ready</text>
+
+  <!-- Bottom border -->
+  <rect x="0" y="636" width="1280" height="4" fill="#00838f" opacity="0.4"/>
 </svg>
