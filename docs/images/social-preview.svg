@@ -22,7 +22,7 @@
   <!-- Top accent bar -->
   <rect x="0" y="0" width="1280" height="4" fill="url(#accent)"/>
 
-  <g transform="translate(50, 230) scale(0.8)">
+  <g transform="translate(106, 230) scale(0.8)">
     <defs>
       <linearGradient id="bgTeal" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" style="stop-color:#26c6da"/>
