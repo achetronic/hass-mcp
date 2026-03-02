@@ -19,23 +19,29 @@ type ToolsManagerDependencies struct {
 
 type ToolsManager struct {
 	dependencies ToolsManagerDependencies
+	toolPrefix   string
 }
 
 func NewToolsManager(deps ToolsManagerDependencies) *ToolsManager {
 	return &ToolsManager{
 		dependencies: deps,
+		toolPrefix:   deps.AppCtx.ToolPrefix,
 	}
+}
+
+func (tm *ToolsManager) toolName(base string) string {
+	return tm.toolPrefix + base
 }
 
 func (tm *ToolsManager) AddTools() {
 	// get_version - Get Home Assistant version
-	tool := mcp.NewTool("get_version",
+	tool := mcp.NewTool(tm.toolName("get_version"),
 		mcp.WithDescription("Get the Home Assistant version"),
 	)
 	tm.dependencies.McpServer.AddTool(tool, tm.HandleToolGetVersion)
 
 	// get_entity - Get state of a specific entity
-	tool = mcp.NewTool("get_entity",
+	tool = mcp.NewTool(tm.toolName("get_entity"),
 		mcp.WithDescription("Get the state of a Home Assistant entity with optional field filtering"),
 		mcp.WithString("entity_id",
 			mcp.Required(),
@@ -48,7 +54,7 @@ func (tm *ToolsManager) AddTools() {
 	tm.dependencies.McpServer.AddTool(tool, tm.HandleToolGetEntity)
 
 	// entity_action - Perform action on entity (on, off, toggle)
-	tool = mcp.NewTool("entity_action",
+	tool = mcp.NewTool(tm.toolName("entity_action"),
 		mcp.WithDescription("Perform an action on a Home Assistant entity (on, off, toggle). Domain-specific params: lights (brightness 0-255, color_temp, rgb_color), covers (position 0-100), climate (temperature, hvac_mode), media_players (source, volume_level 0-1)"),
 		mcp.WithString("entity_id",
 			mcp.Required(),
@@ -65,7 +71,7 @@ func (tm *ToolsManager) AddTools() {
 	tm.dependencies.McpServer.AddTool(tool, tm.HandleToolEntityAction)
 
 	// list_entities - List entities with optional filtering
-	tool = mcp.NewTool("list_entities",
+	tool = mcp.NewTool(tm.toolName("list_entities"),
 		mcp.WithDescription("Get a list of Home Assistant entities with optional filtering by domain or search query"),
 		mcp.WithString("domain",
 			mcp.Description("Optional domain to filter by (e.g., 'light', 'switch', 'sensor')"),
@@ -83,7 +89,7 @@ func (tm *ToolsManager) AddTools() {
 	tm.dependencies.McpServer.AddTool(tool, tm.HandleToolListEntities)
 
 	// search_entities - Search for entities
-	tool = mcp.NewTool("search_entities",
+	tool = mcp.NewTool(tm.toolName("search_entities"),
 		mcp.WithDescription("Search for entities matching a query string. Returns structured results with domain counts."),
 		mcp.WithString("query",
 			mcp.Required(),
@@ -96,7 +102,7 @@ func (tm *ToolsManager) AddTools() {
 	tm.dependencies.McpServer.AddTool(tool, tm.HandleToolSearchEntities)
 
 	// domain_summary - Get summary of a domain
-	tool = mcp.NewTool("domain_summary",
+	tool = mcp.NewTool(tm.toolName("domain_summary"),
 		mcp.WithDescription("Get a summary of entities in a specific domain including state distribution, examples, and common attributes"),
 		mcp.WithString("domain",
 			mcp.Required(),
@@ -109,25 +115,25 @@ func (tm *ToolsManager) AddTools() {
 	tm.dependencies.McpServer.AddTool(tool, tm.HandleToolDomainSummary)
 
 	// system_overview - Get complete system overview
-	tool = mcp.NewTool("system_overview",
+	tool = mcp.NewTool(tm.toolName("system_overview"),
 		mcp.WithDescription("Get a comprehensive overview of the entire Home Assistant system including domain counts, samples, and area distribution. Use this as the first call when exploring an unfamiliar instance."),
 	)
 	tm.dependencies.McpServer.AddTool(tool, tm.HandleToolSystemOverview)
 
 	// list_automations - List all automations
-	tool = mcp.NewTool("list_automations",
+	tool = mcp.NewTool(tm.toolName("list_automations"),
 		mcp.WithDescription("Get a list of all automations from Home Assistant including their IDs, states, and friendly names"),
 	)
 	tm.dependencies.McpServer.AddTool(tool, tm.HandleToolListAutomations)
 
 	// restart_ha - Restart Home Assistant
-	tool = mcp.NewTool("restart_ha",
+	tool = mcp.NewTool(tm.toolName("restart_ha"),
 		mcp.WithDescription("Restart Home Assistant. WARNING: This will temporarily disrupt all Home Assistant operations."),
 	)
 	tm.dependencies.McpServer.AddTool(tool, tm.HandleToolRestartHA)
 
 	// call_service - Call any Home Assistant service
-	tool = mcp.NewTool("call_service",
+	tool = mcp.NewTool(tm.toolName("call_service"),
 		mcp.WithDescription("Call any Home Assistant service (low-level API access). Examples: domain='light', service='turn_on', data={'entity_id': 'light.x', 'brightness': 255}"),
 		mcp.WithString("domain",
 			mcp.Required(),
@@ -144,7 +150,7 @@ func (tm *ToolsManager) AddTools() {
 	tm.dependencies.McpServer.AddTool(tool, tm.HandleToolCallService)
 
 	// get_history - Get entity history
-	tool = mcp.NewTool("get_history",
+	tool = mcp.NewTool(tm.toolName("get_history"),
 		mcp.WithDescription("Get the history of an entity's state changes. Best for entities with discrete state changes rather than continuously changing sensors."),
 		mcp.WithString("entity_id",
 			mcp.Required(),
@@ -157,7 +163,7 @@ func (tm *ToolsManager) AddTools() {
 	tm.dependencies.McpServer.AddTool(tool, tm.HandleToolGetHistory)
 
 	// get_error_log - Get Home Assistant error log
-	tool = mcp.NewTool("get_error_log",
+	tool = mcp.NewTool(tm.toolName("get_error_log"),
 		mcp.WithDescription("Get the Home Assistant error log for troubleshooting. Returns error/warning counts and integration mentions."),
 	)
 	tm.dependencies.McpServer.AddTool(tool, tm.HandleToolGetErrorLog)
